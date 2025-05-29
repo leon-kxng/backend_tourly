@@ -1,0 +1,23 @@
+app = "your-app-name"
+primary_region = "your-region"
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  GIN_MODE = "release"
+
+[mounts]
+  source = "data"
+  destination = "/pb/data"
+
+[deploy]
+  release_command = "your-release-command"
+
+[services]
+  [[services.http]]
+    internal_port = 8090
+    force_https = true
+    [[services.http.routes]]
+      prefix = "/"
+      continue = true
