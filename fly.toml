@@ -1,4 +1,4 @@
-app = "backend_tourly"
+app = "backend-tourly"
 primary_region = "cdg"
 
 [build]
