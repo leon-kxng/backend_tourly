@@ -20,4 +20,4 @@ RUN curl -L -o pb.zip https://github.com/pocketbase/pocketbase/releases/download
 EXPOSE 8090
 
 # Run the server
-CMD ["./pocketbase", "serve", "--http=0.0.0.0:8090"]
+CMD ["./pocketbase", "serve", "--http=0.0.0.0:8090", "--dir", "./data"]
