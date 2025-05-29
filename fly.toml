@@ -1,20 +1,25 @@
 app = "backend-tourly"
 primary_region = "cdg"
 
-[env]
-  GIN_MODE = "release"
+[build]
+
+[http_service]
+  internal_port = 8090
+  force_https = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ["app"]
+  [http_service.concurrency]
+    type = "requests"
+    soft_limit = 500
+    hard_limit = 550
+
+[[vm]]
+  memory = "1gb"
+  cpu_kind = "shared"
+  cpus = 1
 
 [mounts]
+  destination = "/pb/pb_data"
   source = "data"
-  destination = "/pb/data"
-
-[deploy]
-  release_command = "your-release-command"
-
-[services]
-  [[services.http]]
-    internal_port = 8090
-    force_https = true
-    [[services.http.routes]]
-      prefix = "/"
-      continue = true

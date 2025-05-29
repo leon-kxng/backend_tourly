@@ -1,23 +1,20 @@
 # syntax=docker/dockerfile:1
 FROM alpine:latest
 
-# Set environment variables
-ENV GIN_MODE=release
+ARG PB_VERSION=0.21.0
 
-# Set working directory
+RUN apk add --no-cache \
+    unzip \
+    ca-certificates \
+    openssh
+
+# Download and unzip PocketBase
+ADD https://github.com/pocketbase/pocketbase/releases/download/v${PB_VERSION}/pocketbase_${PB_VERSION}_linux_amd64.zip /tmp/pb.zip
+RUN unzip /tmp/pb.zip -d /pb/
+
 WORKDIR /pb
 
-# Install curl and unzip
-RUN apk add --no-cache curl unzip
-
-# Download the PocketBase binary (replace with desired version)
-RUN curl -L -o pb.zip https://github.com/pocketbase/pocketbase/releases/download/v0.21.0/pocketbase_0.21.0_linux_amd64.zip && \
-    unzip pb.zip && \
-    chmod +x pocketbase && \
-    rm pb.zip
-
-# Expose the default PocketBase port
 EXPOSE 8090
 
-# Run the server
-CMD ["./pocketbase", "serve", "--http=0.0.0.0:8090", "--dir", "./data"]
+# Use the persistent data directory (make sure your fly.toml mounts /pb/pb_data)
+CMD ["./pocketbase", "serve", "--http=0.0.0.0:8090", "--dir", "./pb_data"]
