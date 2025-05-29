@@ -1,5 +1,5 @@
-app = "your-app-name"
-primary_region = "your-region"
+app = "backend_tourly"
+primary_region = "cdg"
 
 [build]
   dockerfile = "Dockerfile"
